@@ -1,0 +1,38 @@
+{
+  "name": "blumea-backend",
+  "version": "1.0.0",
+  "description": "Backend service to power the Blumea client.",
+  "main": "application.js",
+  "scripts": {
+    "test": "echo \"[*]Blumea: No Tests Specified\" && exit 1",
+    "start": "node application.js",
+    "dev": "nodemon application.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blumea/Blumea-Backend.git"
+  },
+  "keywords": [
+    "Blumea",
+    "Node.js",
+    "Bloom Filters"
+  ],
+  "author": [
+    "akash.c1500@gmail.com",
+    "singhh3010@gmail.com"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Blumea/Blumea-Backend/issues"
+  },
+  "homepage": "https://github.com/Blumea/Blumea-Backend#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "morgan": "^1.10.0",
+    "express": "^4.17.3"
+  }
+}
