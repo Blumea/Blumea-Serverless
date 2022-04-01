@@ -7,6 +7,10 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
+# Lock Files
+package-lock.json
+*lock*
+
 # Dependency directories
 node_modules/
 jspm_packages/
