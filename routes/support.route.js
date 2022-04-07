@@ -1,12 +1,17 @@
 const express = require('express')
 const router = express.Router()
 
-
+router.get('/support', (req,res)=>{
+    res.status(200).redirect('/api')
+})
 router.post(
     '/support', (req, res) => {
-        var query = req.body.query
+        const query = req.body.query
         console.log(query)
-        res.json({ status: 200, message: 'Feedback Sent' })
+        res.status(200).json({
+             statusCode: 200,
+             message: 'Feedback Sent'
+       })
     }
 )
 
