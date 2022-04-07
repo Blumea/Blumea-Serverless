@@ -1,11 +1,8 @@
-const express = require('express');
-const app = express();
-const port = process.env.PORT || 5002
-app.get('/a', (req, res) =>{
-    res.json({message: 'ge'})
-})
-app.post(
-    '/api/feedback', (req, res) => {
+const express = require('express')
+const router = express.Router()
+
+router.post(
+    '/feedback', (req, res) => {
         const feedback = req.body.feedback
         console.log(feedback)
         res.json({
@@ -13,9 +10,5 @@ app.post(
         });
     }
 );
-app.listen(port, err => {
-    if (err) {
-        return console.log("Error", err);
-    }
-    console.log(`Listening on port ${port}`);
-});
+
+module.exports = router;
