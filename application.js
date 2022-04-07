@@ -28,6 +28,16 @@ app.get('/', (req,res)=>{
     res.json({status: 200, message: 'Welcome to Blumea APIs'})
 })
 
+const supportRoute = require("./routes/support.route")
+const homeRoute = require("./routes/home.route")
+const searchRoute = require("./routes/search.route")
+const feedbackRoute = require("./routes/feedback.route")
+
+app.use("/api",supportRoute) 
+app.use("/api",homeRoute) 
+app.use("/api",searchRoute) 
+app.use("/api",feedbackRoute) 
+
 
 // Server listen
 app.listen(PORT, ()=>{
