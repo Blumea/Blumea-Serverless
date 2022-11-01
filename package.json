@@ -2,11 +2,11 @@
   "name": "blumea-backend",
   "version": "1.0.0",
   "description": "Backend service to power the Blumea client.",
-  "main": "application.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"[*]Blumea: No Tests Specified\" && exit 1",
-    "start": "node application.js",
-    "dev": "nodemon application.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
