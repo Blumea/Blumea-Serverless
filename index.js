@@ -25,8 +25,8 @@ const feedbackRoute = require("./routes/feedback.route")
 const bloomFilter = require('./routes/filters/bloomfilter.basic.route')
 
 // server logs:
-let accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
-app.use(morgan('combined', (NODE_ENV === 'development') ? { stream: accessLogStream } : null));
+// let accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+// app.use(morgan('combined', (NODE_ENV === 'development') ? { stream: accessLogStream } : null));
 
 // middlewares
 app.use(cors());
