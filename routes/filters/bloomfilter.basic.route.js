@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { bloomFilterBasic } = require('blumea');
+const { BloomFilter } = require('blumea');
 var filter;
 const defaultConfig = {
     itemCount: 10000,
@@ -14,7 +14,7 @@ const createDefaultFilterInstance = (_itemCount, _fpRate) => {
         const itemCount = _itemCount ? _itemCount : defaultConfig.itemCount; //10K items
         const fpRate = _fpRate ? _fpRate : defaultConfig.fpRate; //1% false positive rate
         console.log('Creating BloomFilter instance (Item, rate): ' + itemCount + ', ' + fpRate);
-        return new bloomFilterBasic(itemCount, fpRate);
+        return new BloomFilter(itemCount, fpRate);
     } catch (err) {
         console.warn(err);
         return null;
@@ -53,7 +53,7 @@ router.get('/search', (req, res) => {
     try {
         const item = req.query.item || req.params.item || null;
 
-        if (filter === undefined || filter === null || filter === null) {
+        if (!filter) {
             let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
             if (req.query.itemcount && req.query.fprate) {
                 itemCount = req.query.itemcount;
@@ -101,7 +101,7 @@ router.get('/search', (req, res) => {
 
 router.get('/create', (req, res) => {
     try {
-        if (filter === undefined || filter === null || filter === null) {
+        if (!filter) {
             let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
             if (req.query.itemcount && req.query.fprate) {
                 itemCount = req.query.itemcount;
