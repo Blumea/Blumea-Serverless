@@ -4,11 +4,12 @@ const router = express.Router()
 const { bloomFilterBasic } = require('blumea');
 var filter;
 
-const createDefaultFilterInstance = (_itemCount = null, _fpRate = null) => {
+const createDefaultFilterInstance = (_itemCount, _fpRate) => {
     try {
-        console.log('Creating BloomFilter instance (Item, rate): ' + _itemCount + ', ' + _fpRate);
-        const itemCount = _itemCount || 10000; //10K items
-        const fpRate = _fpRate || 0.01; //1% false positive rate
+
+        const itemCount = _itemCount ? _itemCount : 10000; //10K items
+        const fpRate = _fpRate ? _fpRate : 0.01; //1% false positive rate
+        console.log('Creating BloomFilter instance (Item, rate): ' + itemCount + ', ' + fpRate);
         return new bloomFilterBasic(itemCount, fpRate);
     } catch (err) {
         console.warn(err);
