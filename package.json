@@ -30,7 +30,7 @@
     "nodemon": "^2.0.15"
   },
   "dependencies": {
-    "blumea": "^1.0.5",
+    "blumea": "^1.0.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
