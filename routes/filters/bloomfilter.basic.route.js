@@ -3,12 +3,16 @@ const router = express.Router()
 
 const { bloomFilterBasic } = require('blumea');
 var filter;
+const defaultConfig = {
+    itemCount: 10000,
+    fpRate: 0.01
+}
 
 const createDefaultFilterInstance = (_itemCount, _fpRate) => {
     try {
 
-        const itemCount = _itemCount ? _itemCount : 10000; //10K items
-        const fpRate = _fpRate ? _fpRate : 0.01; //1% false positive rate
+        const itemCount = _itemCount ? _itemCount : defaultConfig.itemCount; //10K items
+        const fpRate = _fpRate ? _fpRate : defaultConfig.fpRate; //1% false positive rate
         console.log('Creating BloomFilter instance (Item, rate): ' + itemCount + ', ' + fpRate);
         return new bloomFilterBasic(itemCount, fpRate);
     } catch (err) {
@@ -20,7 +24,12 @@ const createDefaultFilterInstance = (_itemCount, _fpRate) => {
 router.get('/', (req, res) => {
 
     try {
-        filter = createDefaultFilterInstance(req.query.itemcount, req.query.fprate);
+        let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
+        if (req.query.itemcount && req.query.fprate) {
+            itemCount = req.query.itemcount;
+            fpRate = req.query.fprate;
+        }
+        filter = createDefaultFilterInstance(itemCount, fpRate);
         res.status(200).json({
             status: 200,
             message: 'Bloom Filter (Classic) API. Filter Instance creation success.',
@@ -45,7 +54,12 @@ router.get('/search', (req, res) => {
         const item = req.query.item || req.params.item || null;
 
         if (filter === undefined || filter === null || filter === null) {
-            filter = createDefaultFilterInstance(req.query.itemcount, req.query.fprate);
+            let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
+            if (req.query.itemcount && req.query.fprate) {
+                itemCount = req.query.itemcount;
+                fpRate = req.query.fprate;
+            }
+            filter = createDefaultFilterInstance(itemCount, fpRate);
         }
 
         if (item === null || item === undefined) {
@@ -88,7 +102,12 @@ router.get('/search', (req, res) => {
 router.get('/create', (req, res) => {
     try {
         if (filter === undefined || filter === null || filter === null) {
-            filter = createDefaultFilterInstance(req.query.itemcount, req.query.fprate);
+            let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
+            if (req.query.itemcount && req.query.fprate) {
+                itemCount = req.query.itemcount;
+                fpRate = req.query.fprate;
+            }
+            filter = createDefaultFilterInstance(itemCount, fpRate);
         }
         const item = req.query.item || req.params.item || null
         if (item === null || item === undefined || item === '') {
