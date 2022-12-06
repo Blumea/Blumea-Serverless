@@ -1,4 +1,12 @@
 ## Blumea
-The Backend service that powers the Blumea client.
+Serverless node application to power the Blumea client. 
+- Basic utility service for client app's illustrations and filter demo.
+- Would include feedback and mail service.
 
-**[View Deployment](blumea-server-1.herokuapp.com/ "View")**
+### Deployments
+* **[Prod Deployment](https://blumea-serverless.vercel.app/ "Blumea Serverless")**
+* **[Dev Deployment](blumea-server-1.herokuapp.com/ "Blumea Serverless-Dev-Heroku")**
+
+
+### Maintainer
+* **[Akash  chouhan](github.com/akashchouhan16)**
