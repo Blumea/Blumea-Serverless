@@ -19,13 +19,11 @@ const PORT = configs.PORT
 const NODE_ENV = configs.NODE_ENV
 
 // imports:
-const supportRoute = require("./routes/support.route")
-const homeRoute = require("./routes/home.route")
-const searchRoute = require("./routes/search.route")
-const feedbackRoute = require("./routes/feedback.route")
+const home = require("./routes/home.route")
+const feedbackService = require("./routes/feedbackservice.route")
 
-const bloomFilter = require('./routes/filters/bloomfilter.basic.route')
-const countingBloomFilter = require('./routes/filters/bloomfilter.counting.route')
+const classicalBloomService = require('./routes/classicalbloomservice.route')
+const countingBloomService = require('./routes/countingbloomservice.route.js')
 
 // server logs:
 // let accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
@@ -34,9 +32,9 @@ const countingBloomFilter = require('./routes/filters/bloomfilter.counting.route
 // middlewares
 app.use(cors());
 app.use(express.json())
-app.use("/api", supportRoute, homeRoute, searchRoute, feedbackRoute)
-app.use("/bloomfilter", bloomFilter)
-app.use("/countingbloomfilter", countingBloomFilter)
+app.use("/api", home,feedbackService)
+app.use("/bloomfilter", classicalBloomService)
+app.use("/countingbloomfilter", countingBloomService)
 
 
 // routes
