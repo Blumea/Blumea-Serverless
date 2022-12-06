@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"[*]Blumea: No Tests Specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "npm install --save && node index.js",
+    "dev": "npm install --save && nodemon index.js"
   },
   "repository": {
     "type": "git",

@@ -9,12 +9,14 @@ const cors = require('cors'),
     express = require('express'),
     fs = require('fs'),
     morgan = require('morgan'),
-    path = require('path')
+    path = require('path'),
+    configs = require('./configs/config')
 
 dotenv.config()
 const app = express()
-const PORT = process.env.PORT || 5000
-const NODE_ENV = process.env.NODE_ENV || 'development'
+const HOST = configs.HOST
+const PORT = configs.PORT
+const NODE_ENV = configs.NODE_ENV
 
 // imports:
 const supportRoute = require("./routes/support.route")
@@ -59,10 +61,13 @@ app.post(`/*`, (req, res) => {
 
 
 // server listen
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
     const DEVELOPMENT_LOG = {
-        status: 'Live',
-        base_url: process.env.BASE_URL || `http://localhost:${PORT}/`
+        STATUS: 'Live',
+        NODE_ENV,
+        HOST,
+        PORT,
+        BASE_URL: `http://${HOST}:${PORT}/`
     }
     if (process.env.NODE_ENV !== 'production')
         console.table(DEVELOPMENT_LOG);
