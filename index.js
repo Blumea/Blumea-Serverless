@@ -23,6 +23,7 @@ const searchRoute = require("./routes/search.route")
 const feedbackRoute = require("./routes/feedback.route")
 
 const bloomFilter = require('./routes/filters/bloomfilter.basic.route')
+const countingBloomFilter = require('./routes/filters/bloomfilter.counting.route')
 
 // server logs:
 // let accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
@@ -33,6 +34,7 @@ app.use(cors());
 app.use(express.json())
 app.use("/api", supportRoute, homeRoute, searchRoute, feedbackRoute)
 app.use("/bloomfilter", bloomFilter)
+app.use("/countingbloomfilter", countingBloomFilter)
 
 
 // routes
@@ -60,7 +62,7 @@ app.post(`/*`, (req, res) => {
 app.listen(PORT, () => {
     const DEVELOPMENT_LOG = {
         status: 'Live',
-        base_url: `http://localhost:${PORT}/`
+        base_url: process.env.BASE_URL || `http://localhost:${PORT}/`
     }
     if (process.env.NODE_ENV !== 'production')
         console.table(DEVELOPMENT_LOG);
