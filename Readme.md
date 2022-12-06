@@ -5,7 +5,7 @@ Serverless node application to power the Blumea client.
 
 ### Deployments
 * **[Prod Deployment](https://blumea-serverless.vercel.app/ "Blumea Serverless")**
-* **[Dev Deployment](blumea-server-1.herokuapp.com/ "Blumea Serverless-Dev-Heroku")**
+* **[Dev Deployment](https://blumea-server-1.herokuapp.com/ "Blumea Serverless-Dev-Heroku")**
 
 
 ### Maintainer
