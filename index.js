@@ -10,7 +10,8 @@ const cors = require('cors'),
     fs = require('fs'),
     morgan = require('morgan'),
     path = require('path'),
-    configs = require('./configs/config')
+    configs = require('./configs/config'),
+    rateLimiter = require('./middlewares/rateLimiter')
 
 dotenv.config()
 const app = express()
@@ -30,9 +31,10 @@ const countingBloomService = require('./routes/countingbloomservice.route.js')
 // app.use(morgan('combined', (NODE_ENV === 'development') ? { stream: accessLogStream } : null));
 
 // middlewares
-app.use(cors());
+app.use(cors())
 app.use(express.json())
-app.use("/api", home,feedbackService)
+app.use(rateLimiter)
+app.use("/api", home, feedbackService)
 app.use("/bloomfilter", classicalBloomService)
 app.use("/countingbloomfilter", countingBloomService)
 
