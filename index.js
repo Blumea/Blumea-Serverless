@@ -11,7 +11,8 @@ const cors = require('cors'),
     morgan = require('morgan'),
     path = require('path'),
     configs = require('./configs/config'),
-    rateLimiter = require('./middlewares/rateLimiter')
+    rateLimiter = require('./middlewares/rateLimiter'),
+    responseTimeLimiter = require('./middlewares/responseTimeLimiter')
 
 dotenv.config()
 const app = express()
@@ -34,6 +35,7 @@ const countingBloomService = require('./routes/countingbloomservice.route.js')
 app.use(cors())
 app.use(express.json())
 app.use(rateLimiter)
+app.use(responseTimeLimiter)
 app.use("/api", home, feedbackService)
 app.use("/bloomfilter", classicalBloomService)
 app.use("/countingbloomfilter", countingBloomService)
