@@ -1,6 +1,3 @@
-const express = require('express')
-const router = express.Router()
-
 const { BloomFilter } = require('blumea');
 var filter;
 const defaultConfig = {
@@ -21,7 +18,7 @@ const createDefaultFilterInstance = (_itemCount, _fpRate) => {
     }
 }
 
-router.get('/', (req, res) => {
+const defaultClassicalBloomController = (req, res) => {
 
     try {
         let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
@@ -30,7 +27,7 @@ router.get('/', (req, res) => {
             fpRate = req.query.fprate;
         }
         filter = createDefaultFilterInstance(itemCount, fpRate);
-        res.status(200).json({
+        return res.status(200).json({
             status: 200,
             message: 'Bloom Filter (Classic) API. Filter Instance creation success.',
             data: {
@@ -40,16 +37,15 @@ router.get('/', (req, res) => {
             }
         })
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             status: 500,
             message: 'Bloom Filter (Basic) could not be initiated. Internal Server Error.',
             data: {}
         })
     }
+}
 
-})
-
-router.get('/search', (req, res) => {
+const classicalBloomSearchController = (req, res) => {
     try {
         const item = req.query.item || req.params.item || null;
 
@@ -69,7 +65,7 @@ router.get('/search', (req, res) => {
                 data: {}
             })
         } else if (item && filter.find(item)) {
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
                 message: `item @${item} exists.`,
                 data: {
@@ -78,7 +74,7 @@ router.get('/search', (req, res) => {
                 }
             })
         } else {
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
                 message: `item @${item} was not found.`,
                 data: {
@@ -88,7 +84,7 @@ router.get('/search', (req, res) => {
             })
         }
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             status: 500,
             message: 'Something went wrong. Internal Server Error.',
             data: {
@@ -97,9 +93,9 @@ router.get('/search', (req, res) => {
             }
         })
     }
-})
+}
 
-router.get('/create', (req, res) => {
+const classicalBloomCreateController = (req, res) => {
     try {
         if (!filter) {
             let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
@@ -120,7 +116,7 @@ router.get('/create', (req, res) => {
 
         if (filter.find(item) === false) {
             filter.insert(item);
-            res.status(201).json({
+            return res.status(201).json({
                 status: 201,
                 message: `Item @${item} created.`,
                 data: {
@@ -129,7 +125,7 @@ router.get('/create', (req, res) => {
                 }
             })
         } else {
-            res.status(403).json({
+            return res.status(403).json({
                 status: 403,
                 message: `Item @${item} cannot be created.`,
                 data: {
@@ -140,7 +136,7 @@ router.get('/create', (req, res) => {
         }
 
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             status: 500,
             message: 'Something went wrong. Internal Server Error. [item could not be created]',
             data: {
@@ -149,6 +145,6 @@ router.get('/create', (req, res) => {
             }
         })
     }
-})
+}
 
-module.exports = router;
+module.exports = { defaultClassicalBloomController, classicalBloomSearchController, classicalBloomCreateController }

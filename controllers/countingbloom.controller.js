@@ -1,6 +1,3 @@
-const express = require('express')
-const router = express.Router()
-
 const { CountingBloomFilter } = require('blumea');
 var filter;
 const defaultConfig = {
@@ -21,7 +18,7 @@ const createDefaultFilterInstance = (_itemCount, _fpRate) => {
     }
 }
 
-router.get('/', (req, res) => {
+const defaultCountingBloomController = (req, res) => {
 
     try {
         let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
@@ -47,9 +44,8 @@ router.get('/', (req, res) => {
         })
     }
 
-})
-
-router.get('/search', (req, res) => {
+}
+const countingBloomSearchController = (req, res) => {
     try {
         const item = req.query.item || req.params.item || null;
 
@@ -97,9 +93,8 @@ router.get('/search', (req, res) => {
             }
         })
     }
-})
-
-router.get('/create', (req, res) => {
+}
+const countingBloomCreateController = (req, res) => {
     try {
         if (!filter) {
             let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
@@ -149,6 +144,5 @@ router.get('/create', (req, res) => {
             }
         })
     }
-})
-
-module.exports = router;
+}
+module.exports = { defaultCountingBloomController, countingBloomSearchController, countingBloomCreateController }
