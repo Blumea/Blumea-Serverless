@@ -24,8 +24,8 @@ const NODE_ENV = configs.NODE_ENV
 const home = require("./routes/home.route")
 const feedbackService = require("./routes/feedbackservice.route")
 
-const classicalBloomService = require('./routes/classicalbloomservice.route')
-const countingBloomService = require('./routes/countingbloomservice.route.js')
+const classicalBloomService = require('./routes/classicalbloom.route')
+const countingBloomService = require('./routes/countingbloom.route')
 
 // server logs:
 // let accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
