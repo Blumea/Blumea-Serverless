@@ -23,6 +23,7 @@ const NODE_ENV = configs.NODE_ENV
 // imports:
 const home = require("./routes/home.route")
 const feedbackService = require("./routes/feedbackservice.route")
+const mailService = require('./routes/mail.route')
 
 const classicalBloomService = require('./routes/classicalbloom.route')
 const partitionedBloomService = require('./routes/partitionedbloom.route')
@@ -40,6 +41,7 @@ app.use(responseTimeLimiter)
 
 app.use('/api/home', home)
 app.use('/api/feedback', feedbackService)
+app.use('/api/mail', mailService)
 app.use("/api/classicalbloom", classicalBloomService)
 app.use("/api/partitionedbloom", partitionedBloomService)
 app.use("/api/countingbloom", countingBloomService)
@@ -51,6 +53,10 @@ app.get('/', (req, res) => {
 })
 
 // fallbacks:
+app.use('/api/*', (req, res) => {
+    res.redirect('/api/home')
+})
+
 app.get('/*', (req, res) => {
     res.status(404).json({
         statusCode: 404,
@@ -63,6 +69,7 @@ app.post(`/*`, (req, res) => {
         message: `Invalid post request`
     })
 })
+
 
 
 
