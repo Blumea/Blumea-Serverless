@@ -1,4 +1,4 @@
-const { CountingBloomFilter } = require('blumea');
+const { PartitionedBloomFilter } = require('blumea');
 var filter;
 const defaultConfig = {
     itemCount: 10000,
@@ -10,15 +10,15 @@ const createDefaultFilterInstance = (_itemCount, _fpRate) => {
 
         const itemCount = _itemCount ? _itemCount : defaultConfig.itemCount; //10K items
         const fpRate = _fpRate ? _fpRate : defaultConfig.fpRate; //1% false positive rate
-        console.log('Creating CountingBloomFilter instance (Item, rate): ' + itemCount + ', ' + fpRate);
-        return new CountingBloomFilter(itemCount, fpRate);
+        console.log('Creating PartitionedBloomFilter instance (Item, rate): ' + itemCount + ', ' + fpRate);
+        return new PartitionedBloomFilter(itemCount, fpRate);
     } catch (err) {
         console.warn(err);
         return null;
     }
 }
 
-const defaultCountingBloomController = (req, res) => {
+const defaultPartitionedBloomController = (req, res) => {
 
     try {
         let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
@@ -29,9 +29,9 @@ const defaultCountingBloomController = (req, res) => {
         filter = createDefaultFilterInstance(itemCount, fpRate);
         return res.status(200).json({
             status: 200,
-            message: 'Bloom Filter (Counting) API. Filter Instance creation success.',
+            message: 'Bloom Filter (Partitioned) API. Filter Instance creation success.',
             data: {
-                instance: 'BloomFilter - Counting',
+                instance: 'BloomFilter - Partitioned',
                 itemcount: itemCount,
                 falsepositiverate: fpRate
             }
@@ -39,13 +39,13 @@ const defaultCountingBloomController = (req, res) => {
     } catch (err) {
         return res.status(500).json({
             status: 500,
-            message: 'Bloom Filter (Counting) could not be initiated. Internal Server Error.',
+            message: 'Bloom Filter (Partitioned) could not be initiated. Internal Server Error.',
             data: {}
         })
     }
 
 }
-const countingBloomSearchController = (req, res) => {
+const partitionedBloomSearchController = (req, res) => {
     try {
         const item = req.query.item || req.params.item || null;
 
@@ -94,7 +94,7 @@ const countingBloomSearchController = (req, res) => {
         })
     }
 }
-const countingBloomCreateController = (req, res) => {
+const partitionedBloomCreateController = (req, res) => {
     try {
         if (!filter) {
             let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
@@ -145,4 +145,4 @@ const countingBloomCreateController = (req, res) => {
         })
     }
 }
-module.exports = { defaultCountingBloomController, countingBloomSearchController, countingBloomCreateController }
+module.exports = { defaultPartitionedBloomController, partitionedBloomSearchController, partitionedBloomCreateController }

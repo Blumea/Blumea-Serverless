@@ -25,6 +25,7 @@ const home = require("./routes/home.route")
 const feedbackService = require("./routes/feedbackservice.route")
 
 const classicalBloomService = require('./routes/classicalbloom.route')
+const partitionedBloomService = require('./routes/partitionedbloom.route')
 const countingBloomService = require('./routes/countingbloom.route')
 
 // server logs:
@@ -36,9 +37,12 @@ app.use(cors())
 app.use(express.json())
 app.use(rateLimiter)
 app.use(responseTimeLimiter)
-app.use("/api", home, feedbackService)
-app.use("/bloomfilter", classicalBloomService)
-app.use("/countingbloomfilter", countingBloomService)
+
+app.use('/api/home', home)
+app.use('/api/feedback', feedbackService)
+app.use("/api/classicalbloom", classicalBloomService)
+app.use("/api/partitionedbloom", partitionedBloomService)
+app.use("/api/countingbloom", countingBloomService)
 
 
 // routes

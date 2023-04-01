@@ -107,7 +107,7 @@ const classicalBloomCreateController = (req, res) => {
         }
         const item = req.query.item || req.params.item || null
         if (item === null || item === undefined || item === '') {
-            res.status(400).json({
+            return res.status(400).json({
                 status: 400,
                 message: 'Client Error. No item provided with the request.',
                 data: {}
