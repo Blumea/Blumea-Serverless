@@ -1,24 +1,34 @@
 const express = require('express')
 const router = express.Router()
 
-/* Template API route */ 
+/* Template API route */
 router.get('/', (req, res) => {
-        res.json({ 
-            statusCode: 200,
-            message: 'Welcome to Blumea APIs!',
-            services: {
-                classicalBloom: {
-                    createService: `GET /bloomfilter/create?item=`,
-                    searchService: `GET /bloomfilter/search?item=`
-                },
-                countingBloom:{
-                    createService: `GET /countingbloomfilter/create?item=`,
-                    searchService: `GET /countingbloomfilter/search?item=`
-                },
-                feedbackService: `WIP /api/feedback`,
-                mailService: 'WIP /api/blumea-mail'
-            } 
-        })
-    }
+    res.json({
+        statusCode: 200,
+        message: 'Welcome to Blumea APIs!',
+        services: [
+            classicalBloom = {
+                create: `GET /classicalbloom/create?item=`,
+                search: `GET /classicalbloom/search?item=`
+            },
+            partitionedBloom = {
+                create: `GET /partitionedbloom/create?item=`,
+                search: `GET /partitionedbloom/search?item=`
+            },
+            countingBloom = {
+                create: `GET /countingbloom/create?item=`,
+                search: `GET /countingbloom/search?item=`
+            },
+            cuckooBloom = {
+                create: `GET /cuckoobloom/create?item=`,
+                search: `GET /cuckoobloom/search?item=`
+            },
+            mailService = {
+                otpService: `WIP /api/mail/verify`,
+                feedbackService: `WIP /api/mail/feedback`,
+            }
+        ]
+    })
+}
 )
 module.exports = router;

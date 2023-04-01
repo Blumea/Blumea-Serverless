@@ -27,9 +27,9 @@ const defaultCountingBloomController = (req, res) => {
             fpRate = req.query.fprate;
         }
         filter = createDefaultFilterInstance(itemCount, fpRate);
-        res.status(200).json({
+        return res.status(200).json({
             status: 200,
-            message: 'Bloom Filter (Classic) API. Filter Instance creation success.',
+            message: 'Bloom Filter (Counting) API. Filter Instance creation success.',
             data: {
                 instance: 'BloomFilter - Counting',
                 itemcount: itemCount,
@@ -37,9 +37,9 @@ const defaultCountingBloomController = (req, res) => {
             }
         })
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             status: 500,
-            message: 'Bloom Filter (Basic) could not be initiated. Internal Server Error.',
+            message: 'Bloom Filter (Counting) could not be initiated. Internal Server Error.',
             data: {}
         })
     }
@@ -65,7 +65,7 @@ const countingBloomSearchController = (req, res) => {
                 data: {}
             })
         } else if (item && filter.find(item)) {
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
                 message: `item @${item} exists.`,
                 data: {
@@ -74,7 +74,7 @@ const countingBloomSearchController = (req, res) => {
                 }
             })
         } else {
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
                 message: `item @${item} was not found.`,
                 data: {
@@ -84,7 +84,7 @@ const countingBloomSearchController = (req, res) => {
             })
         }
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             status: 500,
             message: 'Something went wrong. Internal Server Error.',
             data: {
@@ -106,7 +106,7 @@ const countingBloomCreateController = (req, res) => {
         }
         const item = req.query.item || req.params.item || null
         if (item === null || item === undefined || item === '') {
-            res.status(400).json({
+            return res.status(400).json({
                 status: 400,
                 message: 'Client Error. No item provided with the request.',
                 data: {}
@@ -115,7 +115,7 @@ const countingBloomCreateController = (req, res) => {
 
         if (filter.find(item) === false) {
             filter.insert(item);
-            res.status(201).json({
+            return res.status(201).json({
                 status: 201,
                 message: `Item @${item} created.`,
                 data: {
@@ -124,7 +124,7 @@ const countingBloomCreateController = (req, res) => {
                 }
             })
         } else {
-            res.status(403).json({
+            return res.status(403).json({
                 status: 403,
                 message: `Item @${item} cannot be created.`,
                 data: {
@@ -135,7 +135,7 @@ const countingBloomCreateController = (req, res) => {
         }
 
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             status: 500,
             message: 'Something went wrong. Internal Server Error. [item could not be created]',
             data: {
