@@ -47,7 +47,7 @@ const generateEmailVerification = async (email) => {
             html: `
         <p>Hello!</p>
         <p>Please click the link below to verify your email address:</p>
-        <a href="https://blumea-serverless.vercel.app/api/mail/verify/${token}">Verify Email</a>
+        <a href="https://blumea-serverless-v2.onrender.com/api/mail/verify/${token}">Verify Email</a>
         <p> Regards, </p>
         <p> Team Blumea <p>
       `
