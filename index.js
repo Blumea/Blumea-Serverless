@@ -12,7 +12,8 @@ const cors = require('cors'),
     path = require('path'),
     configs = require('./configs/config'),
     rateLimiter = require('./middlewares/rateLimiter'),
-    responseTimeLimiter = require('./middlewares/responseTimeLimiter')
+    responseTimeLimiter = require('./middlewares/responseTimeLimiter'),
+    { validateAccess, validateMailAccess } = require('./middlewares/auth')
 
 dotenv.config()
 const app = express()
@@ -39,12 +40,12 @@ app.use(express.json())
 app.use(rateLimiter)
 app.use(responseTimeLimiter)
 
-app.use('/api/home', home)
-app.use('/api/feedback', feedbackService)
-app.use('/api/mail', mailService)
-app.use("/api/classicalbloom", classicalBloomService)
-app.use("/api/partitionedbloom", partitionedBloomService)
-app.use("/api/countingbloom", countingBloomService)
+app.use('/api/home', validateAccess, home)
+app.use('/api/feedback', validateAccess, feedbackService)
+app.use('/api/mail', validateAccess, mailService);
+app.use("/api/classicalbloom", validateAccess, classicalBloomService)
+app.use("/api/partitionedbloom", validateAccess, partitionedBloomService)
+app.use("/api/countingbloom", validateAccess, countingBloomService)
 
 
 // routes
