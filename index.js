@@ -40,9 +40,9 @@ app.use(express.json())
 app.use(rateLimiter)
 app.use(responseTimeLimiter)
 
+app.use('/api/mail', mailService);
 app.use('/api/home', validateAccess, home)
 app.use('/api/feedback', validateAccess, feedbackService)
-app.use('/api/mail', validateAccess, mailService);
 app.use("/api/classicalbloom", validateAccess, classicalBloomService)
 app.use("/api/partitionedbloom", validateAccess, partitionedBloomService)
 app.use("/api/countingbloom", validateAccess, countingBloomService)
@@ -54,7 +54,7 @@ app.get('/', (req, res) => {
 })
 
 // fallbacks:
-app.use('/api/*', (req, res) => {
+app.use('/api*', (req, res) => {
     res.redirect('/api/home')
 })
 
