@@ -6,31 +6,44 @@ Blumea's React.js client is powered by this Serverless node application that pro
 
 The application is designed to incorporate feedback and mail services, improving user engagement. The Serverless architecture enables rapid development and deployment, reduces operational overhead, and is cost-effective.
 
----
 
 ## 🏗️ Deployments
 **Please note that all APIs prefixed with /api require an API key.**
 * **[Prod Deployment](https://blumea-serverless.vercel.app/ "Blumea Serverless Vercel")**
 * **[Prod Deployment - Mail Service Enabled](https://blumea-serverless-v2.onrender.com "Blumea Serverless v2 Render")**
 * **[Dev Deployment](https://blumea-server-1.herokuapp.com/ "Blumea Serverless-Dev-Heroku")**
----
 
+---
 ## ❔ API Accessibility
 All request must contain **`x-api-key`** header to access the protected endpoints. 
  
 **Services**
 * **/api/home** - Enlists exposed APIs.
+  
 * **/api/mail** - Blumea Mail Service.
-    * POST: `/api/mail/generate` - Trigger email verification for a client.
-    * GET: `/api/mail/verify/:token` - Verify client email - triggered through gmail.
+    * POST: **/api/mail/generate** - Trigger email verification for a client.
+    * GET: **/api/mail/verify/:token** - Verify client email - triggered through gmail.
+
 * **/api/feedback** - Users with verified email to submit feedback.
 
 **Demo Section Utility**
-* **/api/`filter_name`/create?item=** - In house bloom filter demo: item insertion on the filter instance.
-* **/api/`filter_name`/search?item=** - In house bloom filter demo: item look up on the filter instance.  
+* **/api/`filter_name`/create?item=** - In house demo for item insertion on a filter instance.
+
+* **/api/`filter_name`/search?item=** - In house demo for item look up on a filter instance.
+
+* **Sample**
+  ```bash
+    curl https://blumea-serverless.vercel.app/api/classicalbloom/search?item=user17
+    -H "x-api-key: ExampleKeyQmx1bWVhIFNlcnZlcmxlc3M="
+  ```
 
 ---
-### Maintainer
-**[Akash  chouhan](github.com/akashchouhan16)**
-### License
-**[MIT](https://github.com/Blumea/Blumea-Serverless/blob/main/LICENSE "View License")**
+## 📦 Application Details
+#### **License**
+**[MIT License](https://github.com/Blumea/Blumea-Serverless/blob/main/LICENSE "View License")**
+
+#### **Author**
+**[Github.com/Blumea](https://github.com/Blumea "Open GitHub Organization")**
+#### **Maintainer**
+**[Akash Chouhan](github.com/akashchouhan16 "akashchouhan16")**
+
