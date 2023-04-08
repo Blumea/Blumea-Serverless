@@ -1,19 +1,41 @@
 const { CountingBloomFilter } = require('blumea');
+const { log, warn } = require('console');
 var filter;
 const defaultConfig = {
     itemCount: 10000,
     fpRate: 0.01
 }
 
+const validateInputs = (_itemCount, _fpRate) => {
+    let updatedCount = Number(_itemCount);
+    let updateRate = Number(_fpRate);
+
+    log(`Pre-validation itemCount: ${updatedCount}, fpRate: ${updateRate}`);
+    if (updatedCount < 1 || updatedCount >= 999999) {
+        updatedCount = defaultConfig.itemCount;
+    }
+    if (updateRate < 0.001 || updateRate >= 0.999) {
+        updateRate = defaultConfig.fpRate;
+    }
+
+    log(`Post-validation itemCount: ${updatedCount}, fpRate: ${updateRate}`);
+    return { updatedCount, updateRate }
+}
+
 const createDefaultFilterInstance = (_itemCount, _fpRate) => {
     try {
+        const { updatedCount, updateRate } = validateInputs(_itemCount, _fpRate);
 
-        const itemCount = _itemCount ? _itemCount : defaultConfig.itemCount; //10K items
-        const fpRate = _fpRate ? _fpRate : defaultConfig.fpRate; //1% false positive rate
-        console.log('Creating CountingBloomFilter instance (Item, rate): ' + itemCount + ', ' + fpRate);
-        return new CountingBloomFilter(itemCount, fpRate);
+        const itemCount = updatedCount || defaultConfig.itemCount; // 10K items
+        const fpRate = updateRate || defaultConfig.fpRate; // 1% false positive rate
+
+        const maxItemCount = Math.ceil(-1 * (itemCount * Math.log(fpRate)) / Math.pow(Math.log(2), 2));
+        const adjustedFpRate = itemCount > maxItemCount ? fpRate * 2 : fpRate;
+
+        log('Creating BloomFilter instance (Item, rate): ' + maxItemCount + ', ' + adjustedFpRate);
+        return new CountingBloomFilter(maxItemCount, adjustedFpRate);
     } catch (err) {
-        console.warn(err);
+        warn(err);
         return null;
     }
 }
@@ -27,20 +49,26 @@ const defaultCountingBloomController = (req, res) => {
             fpRate = req.query.fprate;
         }
         filter = createDefaultFilterInstance(itemCount, fpRate);
+        if (!filter) {
+            throw new Error('Bloom Filter instance could not be created.');
+        }
+
         return res.status(200).json({
             status: 200,
-            message: 'Bloom Filter (Counting) API. Filter Instance creation success.',
+            message: 'Bloom Filter (Counting) API. Optimal Filter Instance creation success.',
             data: {
-                instance: 'BloomFilter - Counting',
-                itemcount: itemCount,
-                falsepositiverate: fpRate
+                instance: 'countingBloomFilter',
+                itemcount: filter.items_count,
+                falsepositiverate: filter.false_positive
             }
         })
     } catch (err) {
         return res.status(500).json({
             status: 500,
-            message: 'Bloom Filter (Counting) could not be initiated. Internal Server Error.',
-            data: {}
+            message: 'Internal Server Error',
+            data: {
+                error: err.message
+            }
         })
     }
 
@@ -56,6 +84,10 @@ const countingBloomSearchController = (req, res) => {
                 fpRate = req.query.fprate;
             }
             filter = createDefaultFilterInstance(itemCount, fpRate);
+            //if the instance created is yet again null.
+            if (!filter) {
+                throw new Error('Bloom Filter instance could not be created.');
+            }
         }
 
         if (item === null || item === undefined) {
@@ -89,7 +121,7 @@ const countingBloomSearchController = (req, res) => {
             message: 'Something went wrong. Internal Server Error.',
             data: {
                 isfound: false,
-                error: err
+                error: err.message
             }
         })
     }
@@ -103,6 +135,10 @@ const countingBloomCreateController = (req, res) => {
                 fpRate = req.query.fprate;
             }
             filter = createDefaultFilterInstance(itemCount, fpRate);
+            //if the instance created is yet again null.
+            if (!filter) {
+                throw new Error('Bloom Filter instance could not be created.');
+            }
         }
         const item = req.query.item || req.params.item || null
         if (item === null || item === undefined || item === '') {
@@ -137,10 +173,10 @@ const countingBloomCreateController = (req, res) => {
     } catch (err) {
         return res.status(500).json({
             status: 500,
-            message: 'Something went wrong. Internal Server Error. [item could not be created]',
+            message: 'Internal Server Error',
             data: {
                 iscreated: false,
-                error: err
+                error: err.message
             }
         })
     }
