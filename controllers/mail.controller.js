@@ -1,18 +1,17 @@
 const { generateEmailVerification, verifyEmail } = require('../services/verification.service');
-
+const emailValidator = require('email-validator');
 
 
 const generateTokenController = (req, res) => {
     const email = req.body.email || req.body.mail;
 
-    if (email === undefined || email === null || email === '') {
+    if (!email || typeof email !== 'string' || !emailValidator.validate(email)) {
         return res.status(401).json({
             status: 401,
             message: 'Invalid email provided',
             data: null
         })
     }
-
 
     let isGenerated = generateEmailVerification(email);
 
