@@ -8,6 +8,7 @@
 
 require('dotenv').config({ path: __dirname + '/../.env' });
 const nodemailer = require('nodemailer');
+const emailValidator = require('email-validator');
 const { v4: uuidv4 } = require('uuid');
 const { log, warn } = require('console');
 
@@ -22,42 +23,49 @@ const tokens = {};
 
 
 const generateEmailVerification = async (email) => {
-    if (email === null || email === undefined || email === '')
-        return null;
-
-    const transporter = nodemailer.createTransport({
-        host: TRANSPORTER_HOSTNAME,
-        port: TRANSPORTER_PORT,
-        auth: {
-            user: ADMIN_EMAIL_NOREPLY,
-            pass: ADMIN_APPTOKEN_NOREPLY,
-        }
-    })
-
-
     try {
-        const token = uuidv4();
-        tokens[token] = email;
+        if (!email || typeof email !== 'string' || !emailValidator.validate(email)) {
+            throw new Error('Invalid email address');
+        }
 
-        // verification email to the user
-        await transporter.sendMail({
-            from: ADMIN_EMAIL_NOREPLY,
-            to: email,
-            subject: 'Hi, Please verify your email address',
-            html: `
+        const transporter = nodemailer.createTransport({
+            host: TRANSPORTER_HOSTNAME,
+            port: TRANSPORTER_PORT,
+            auth: {
+                user: ADMIN_EMAIL_NOREPLY,
+                pass: ADMIN_APPTOKEN_NOREPLY,
+            }
+        })
+
+
+        try {
+            const token = uuidv4();
+            tokens[token] = email;
+
+            // verification email to the user
+            await transporter.sendMail({
+                from: `Blumea <${ADMIN_EMAIL_NOREPLY}>`,
+                to: email,
+                subject: 'Hi, Please verify your email address',
+                html: `<body color='#191c1a'><img src='https://user-images.githubusercontent.com/56465610/215419028-c5b3987d-4e9d-4cbb-931f-438a33ce07d4.png' width='600px' alt='Sent from Blumea-Serverless'/>
         <p>Hello!</p>
         <p>Please click the link below to verify your email address:</p>
         <a href="https://blumea-serverless-v2.onrender.com/api/mail/verify/${token}">Verify Email</a>
         <p> Regards, </p>
         <p> Team Blumea <p>
-      `
-        });
+      </body>`
+            });
 
-        return true;
-    } catch (err) {
-        warn(err);
+            return true;
+        } catch (e) {
+            warn(`Exception with sendMail(): ${e.message}`);
+            return false;
+            // throw new Error('Something went wrong while verifying email');
+        }
+
+    } catch (e) {
+        warn(`Exception with generateEmailVerification(): ${e.message}`);
         return false;
-        // throw new Error('Something went wrong while verifying email');
     }
 }
 
