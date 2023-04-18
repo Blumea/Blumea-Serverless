@@ -11,10 +11,22 @@ router.get('/verify/:token', verifyEmailController)
 
 
 // fallbacks:
-router.get('*', (req, res) => {
-    res.status(200).json({
-        status: 200,
-        message: 'Welcome to Blumea Mail Service!',
+router.get('/*', (req, res) => {
+    res.status(404).json({
+        statusCode: 404,
+        message: `Invalid get request`,
+        data: {
+            apis: [
+                generate = 'POST: /api/mail/generate',
+                verify = 'GET: /api/mail/verify/:token'
+            ]
+        }
+    })
+})
+router.post(`/*`, (req, res) => {
+    res.status(404).json({
+        statusCode: 404,
+        message: `Invalid post request`,
         data: {
             apis: [
                 generate = 'POST: /api/mail/generate',

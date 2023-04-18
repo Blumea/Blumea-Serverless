@@ -43,9 +43,11 @@ app.use(responseTimeLimiter)
 app.use('/api/mail', mailService);
 app.use('/api/home', validateAccess, home)
 app.use('/api/feedback', validateAccess, feedbackService)
-app.use("/api/classicalbloom", validateAccess, classicalBloomService)
-app.use("/api/partitionedbloom", validateAccess, partitionedBloomService)
-app.use("/api/countingbloom", validateAccess, countingBloomService)
+app.use("/api/classical", validateAccess, classicalBloomService)
+app.use("/api/partitioned", validateAccess, partitionedBloomService)
+app.use("/api/counting", validateAccess, countingBloomService)
+// app.use("/api/scalable", validateAccess, scalableBloomService)
+// app.use("/api/cuckoo", validateAccess, cuckooBloomService)
 
 
 // routes
@@ -65,7 +67,7 @@ app.get('/*', (req, res) => {
     })
 })
 app.post(`/*`, (req, res) => {
-    res.statusCode(404).json({
+    res.status(404).json({
         statusCode: 404,
         message: `Invalid post request`
     })
