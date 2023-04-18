@@ -1,7 +1,7 @@
 {
-  "name": "blumea-backend",
+  "name": "blumea-serverless",
   "version": "1.0.0",
-  "description": "Backend service to power the Blumea client.",
+  "description": "Serverless node app that provides standard utilities to power the Blumea client.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"[*]Blumea: No Tests Specified\" && exit 1",
@@ -17,10 +17,11 @@
     "Node.js",
     "Bloom Filters"
   ],
-  "author": [
-    "akash.c1500@gmail.com",
-    "singhh3010@gmail.com"
-  ],
+  "author": {
+    "name": "Akash Chouhan",
+    "email": "akash.c1500@gmail.com",
+    "github": "github.com/akashchouhan16"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Blumea/Blumea-Backend/issues"
