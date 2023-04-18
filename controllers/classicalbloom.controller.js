@@ -5,6 +5,8 @@ const defaultConfig = {
     itemCount: 10000,
     fpRate: 0.01
 }
+// TODO: Update the List storage to Redis or MongoDB Atlas
+let itemList = [];
 
 const validateInputs = (_itemCount, _fpRate) => {
     let updatedCount = Number(_itemCount);
@@ -154,6 +156,7 @@ const classicalBloomCreateController = (req, res) => {
 
         if (filter.find(item) === false) {
             filter.insert(item);
+            itemList.push(item);
             return res.status(201).json({
                 status: 201,
                 message: `Item @${item} created.`,
@@ -185,4 +188,14 @@ const classicalBloomCreateController = (req, res) => {
     }
 }
 
-module.exports = { defaultClassicalBloomController, classicalBloomSearchController, classicalBloomCreateController }
+const classicalBloomGetAllItemsController = (req, res) => {
+    res.status(200).json({
+        status: 200,
+        message: `Bloom Filter (Classic) API - Item List`,
+        data: {
+            itemList
+        }
+    })
+}
+
+module.exports = { defaultClassicalBloomController, classicalBloomSearchController, classicalBloomCreateController, classicalBloomGetAllItemsController }

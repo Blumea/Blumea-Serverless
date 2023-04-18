@@ -5,6 +5,8 @@ const defaultConfig = {
     itemCount: 10000,
     fpRate: 0.01
 }
+// TODO: Update the List storage to Redis or MongoDB Atlas
+let itemList = [];
 
 const validateInputs = (_itemCount, _fpRate) => {
     let updatedCount = Number(_itemCount);
@@ -152,6 +154,7 @@ const partitionedBloomCreateController = (req, res) => {
 
         if (filter.find(item) === false) {
             filter.insert(item);
+            itemList.push(item);
             return res.status(201).json({
                 status: 201,
                 message: `Item @${item} created.`,
@@ -182,4 +185,13 @@ const partitionedBloomCreateController = (req, res) => {
         })
     }
 }
-module.exports = { defaultPartitionedBloomController, partitionedBloomSearchController, partitionedBloomCreateController }
+const partitionedBloomGetAllItemsController = (req, res) => {
+    res.status(200).json({
+        status: 200,
+        message: `Bloom Filter (Partitioned) API - Item List`,
+        data: {
+            itemList
+        }
+    })
+}
+module.exports = { defaultPartitionedBloomController, partitionedBloomSearchController, partitionedBloomCreateController, partitionedBloomGetAllItemsController }
