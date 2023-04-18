@@ -7,7 +7,7 @@ router.get('/', defaultClassicalBloomController)
 
 router.get('/search', classicalBloomSearchController)
 
-router.get('/create', classicalBloomCreateController)
+router.post('/create', classicalBloomCreateController)
 
 // fallbacks:
 router.get('/*', (req, res) => {
