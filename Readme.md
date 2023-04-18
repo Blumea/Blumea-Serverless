@@ -10,8 +10,10 @@ The application is designed to incorporate feedback and mail services, improving
 ## 🏗️ Deployments
 **Please note that all APIs prefixed with /api require an API key.**
 * **[Prod Deployment](https://blumea-serverless.vercel.app/ "Blumea Serverless Vercel")**
-* **[Prod Deployment - Mail Service Enabled](https://blumea-serverless-v2.onrender.com "Blumea Serverless v2 Render")**
 * **[Dev Deployment](https://blumea-server-1.herokuapp.com/ "Blumea Serverless-Dev-Heroku")**
+* **[Prod Deployment 1 - Mail Service Enabled](https://blumea-serverless.onrender.com "Blumea Serverless v2 Render")**
+* **[Prod Deployment 2 - Mail Service Enabled](https://blumea-serverless-v2.onrender.com "Blumea Serverless v2 Render")**
+
 
 ---
 ## ❔ API Accessibility
@@ -33,9 +35,15 @@ All request must contain **`x-api-key`** header to access the protected endpoint
 
 * **Sample**
   ```bash
-    curl https://blumea-serverless.vercel.app/api/classicalbloom/search?item=user17
+    curl https://blumea-serverless.vercel.app/api/classical/search?item=user17
     -H "x-api-key: ExampleKeyQmx1bWVhIFNlcnZlcmxlc3M="
   ```
+* **Options for the filter:**
+  * **/api/classical**
+  * **/api/counting**
+  * **/api/partitioned**
+  * `wip` **/api/cuckoo**
+  * `wip` **/api/scalable**
 
 ---
 ## 📦 Application Details
