@@ -134,8 +134,8 @@ const classicalBloomCreateController = (req, res) => {
         if (!filter) {
             let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
             if (req.body.itemcount || req.body.fprate) {
-                itemCount = req.query.itemcount;
-                fpRate = req.query.fprate;
+                itemCount = req.body.itemcount ? Number(req.body.itemcount) : itemCount;
+                fpRate = req.body.fprate ? Number(req.body.fprate) : fpRate;
             }
             filter = createDefaultFilterInstance(itemCount, fpRate);
             //if the instance created is yet again null.
