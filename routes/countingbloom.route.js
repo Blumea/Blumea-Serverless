@@ -7,7 +7,7 @@ router.get('/', defaultCountingBloomController)
 
 router.get('/search', countingBloomSearchController)
 
-router.get('/create', countingBloomCreateController)
+router.post('/create', countingBloomCreateController)
 
 // fallbacks:
 router.get('/*', (req, res) => {
