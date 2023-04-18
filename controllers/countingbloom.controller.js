@@ -81,9 +81,9 @@ const countingBloomSearchController = (req, res) => {
 
         if (!filter) {
             let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
-            if (req.query.itemcount && req.query.fprate) {
-                itemCount = req.query.itemcount;
-                fpRate = req.query.fprate;
+            if (req.query.itemcount || req.query.fprate) {
+                itemCount = req.query.itemcount ? Number(req.query.itemcount) : itemCount;
+                fpRate = req.query.fprate ? Number(req.query.fprate) : fpRate;
             }
             filter = createDefaultFilterInstance(itemCount, fpRate);
             //if the instance created is yet again null.

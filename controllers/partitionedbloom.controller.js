@@ -43,9 +43,9 @@ const defaultPartitionedBloomController = (req, res) => {
 
     try {
         let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
-        if (req.query.itemcount && req.query.fprate) {
-            itemCount = req.query.itemcount;
-            fpRate = req.query.fprate;
+        if (req.query.itemcount || req.query.fprate) {
+            itemCount = req.query.itemcount ? Number(req.query.itemcount) : itemCount;
+            fpRate = req.query.fprate ? Number(req.query.fprate) : fpRate;
         }
         filter = createDefaultFilterInstance(itemCount, fpRate);
         if (!filter) {
@@ -58,7 +58,9 @@ const defaultPartitionedBloomController = (req, res) => {
             data: {
                 instance: 'partitionedBloomFilter',
                 itemcount: filter.items_count,
-                falsepositiverate: filter.false_positive
+                falsepositiverate: filter.false_positive,
+                requiredcount: itemCount,
+                requiredrate: fpRate
             }
         })
     } catch (err) {
@@ -78,9 +80,9 @@ const partitionedBloomSearchController = (req, res) => {
 
         if (!filter) {
             let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
-            if (req.query.itemcount && req.query.fprate) {
-                itemCount = req.query.itemcount;
-                fpRate = req.query.fprate;
+            if (req.query.itemcount || req.query.fprate) {
+                itemCount = req.query.itemcount ? Number(req.query.itemcount) : itemCount;
+                fpRate = req.query.fprate ? Number(req.query.fprate) : fpRate;
             }
             filter = createDefaultFilterInstance(itemCount, fpRate);
             //if the instance created is yet again null.
@@ -129,9 +131,9 @@ const partitionedBloomCreateController = (req, res) => {
     try {
         if (!filter) {
             let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
-            if (req.query.itemcount && req.query.fprate) {
-                itemCount = req.query.itemcount;
-                fpRate = req.query.fprate;
+            if (req.body.itemcount || req.body.fprate) {
+                itemCount = req.body.itemcount ? Number(req.body.itemcount) : itemCount;
+                fpRate = req.body.fprate ? Number(req.body.fprate) : fpRate;
             }
             filter = createDefaultFilterInstance(itemCount, fpRate);
             //if the instance created is yet again null.
@@ -139,7 +141,7 @@ const partitionedBloomCreateController = (req, res) => {
                 throw new Error('Bloom Filter instance could not be created.');
             }
         }
-        const item = req.query.item || req.params.item || null
+        const item = req.body.item || req.query.item || null
         if (item === null || item === undefined || item === '') {
             return res.status(400).json({
                 status: 400,
