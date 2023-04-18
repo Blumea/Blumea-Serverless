@@ -23,7 +23,7 @@ const NODE_ENV = configs.NODE_ENV
 
 // imports:
 const home = require("./routes/home.route")
-const feedbackService = require("./routes/feedbackservice.route")
+const feedbackService = require("./routes/feedback.route")
 const mailService = require('./routes/mail.route')
 
 const classicalBloomService = require('./routes/classicalbloom.route')

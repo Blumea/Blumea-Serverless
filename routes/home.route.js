@@ -8,26 +8,30 @@ router.get('/', (req, res) => {
         message: 'Welcome to Blumea APIs!',
         data: {
             apis: [
-                feedbackService = [`POST /api/feedback`],
+                feedbackService = [`POST /api/feedback wip`],
                 mailService = [
                     generation = 'POST /api/mail/generate',
                     verification = `GET /api/mail/verify/:token`,
                 ],
                 classicalBloom = [
-                    create = `GET /classicalbloom/create?item=`,
-                    search = `GET /classicalbloom/search?item=`
+                    create = `POST /classical/create`,
+                    search = `GET /classical/search?item=`
                 ],
                 partitionedBloom = [
-                    create = `GET /partitionedbloom/create?item=`,
-                    search = `GET /partitionedbloom/search?item=`
+                    create = `POST /partitioned/create`,
+                    search = `GET /partitioned/search?item=`
                 ],
                 countingBloom = [
-                    create = `GET /countingbloom/create?item=`,
-                    search = `GET /countingbloom/search?item=`
+                    create = `POST /counting/create`,
+                    search = `GET /counting/search?item=`
                 ],
                 cuckooBloom = [
-                    create = `GET /cuckoobloom/create?item=`,
-                    search = `GET /cuckoobloom/search?item=`
+                    create = `POST /cuckoo/create wip`,
+                    search = `GET /cuckoo/search?item= wip`
+                ],
+                scalableBloom = [
+                    create = `POST /scalable/create wip`,
+                    search = `GET /scalable/search?item= wip`
                 ]
             ]
         }
