@@ -7,7 +7,7 @@ router.get('/', defaultPartitionedBloomController)
 
 router.get('/search', partitionedBloomSearchController)
 
-router.get('/create', partitionedBloomCreateController)
+router.post('/create', partitionedBloomCreateController)
 
 // fallbacks:
 router.get('/*', (req, res) => {
