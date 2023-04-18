@@ -1,13 +1,15 @@
 const express = require('express')
 const router = express.Router()
 
-const { defaultPartitionedBloomController, partitionedBloomSearchController, partitionedBloomCreateController } = require('../controllers/partitionedbloom.controller')
+const { defaultPartitionedBloomController, partitionedBloomSearchController, partitionedBloomCreateController, partitionedBloomGetAllItemsController } = require('../controllers/partitionedbloom.controller')
 
 router.get('/', defaultPartitionedBloomController)
 
 router.get('/search', partitionedBloomSearchController)
 
 router.post('/create', partitionedBloomCreateController)
+
+router.get('/all', partitionedBloomGetAllItemsController)
 
 // fallbacks:
 router.get('/*', (req, res) => {
