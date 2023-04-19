@@ -52,7 +52,7 @@ app.use("/api/counting", validateAccess, countingBloomService)
 
 // routes
 app.get('/', (req, res) => {
-    res.json({ statusCode: 200, message: 'Welcome to Blumea APIs' })
+    res.json({ status: 200, message: 'Welcome to Blumea APIs' })
 })
 
 // fallbacks:
@@ -62,13 +62,13 @@ app.use('/api*', (req, res) => {
 
 app.get('/*', (req, res) => {
     res.status(404).json({
-        statusCode: 404,
+        status: 404,
         message: `Invalid get request`
     })
 })
 app.post(`/*`, (req, res) => {
     res.status(404).json({
-        statusCode: 404,
+        status: 404,
         message: `Invalid post request`
     })
 })

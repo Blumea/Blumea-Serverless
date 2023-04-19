@@ -13,25 +13,25 @@ router.get('/verify/:token', verifyEmailController)
 // fallbacks:
 router.get('/*', (req, res) => {
     res.status(404).json({
-        statusCode: 404,
+        status: 404,
         message: `Invalid get request`,
         data: {
-            apis: [
-                generate = 'POST: /api/mail/generate',
-                verify = 'GET: /api/mail/verify/:token'
-            ]
+            apis: {
+                generate: 'POST: /api/mail/generate',
+                verify: 'GET: /api/mail/verify/:token'
+            }
         }
     })
 })
 router.post(`/*`, (req, res) => {
     res.status(404).json({
-        statusCode: 404,
+        status: 404,
         message: `Invalid post request`,
         data: {
-            apis: [
-                generate = 'POST: /api/mail/generate',
-                verify = 'GET: /api/mail/verify/:token'
-            ]
+            apis: {
+                generate: 'POST: /api/mail/generate',
+                verify: 'GET: /api/mail/verify/:token'
+            }
         }
     })
 })

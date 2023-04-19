@@ -5,8 +5,16 @@ const defaultConfig = {
     itemCount: 10000,
     fpRate: 0.01
 }
-// TODO: Update the List storage to Redis or MongoDB Atlas
-let itemList = [];
+// TODO: Update the List storage to Redis or MongoDB Atlas 
+let itemList = [
+    /**
+     * itemId: Number
+     * item: any
+     * size: Byte
+     * created: Date
+     * ttl: ms (milliseconds) - this will require a cron job to update ttl and delete item.
+     * */
+];
 
 const validateInputs = (_itemCount, _fpRate) => {
     let updatedCount = Number(_itemCount);
