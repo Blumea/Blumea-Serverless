@@ -31,7 +31,7 @@
     "nodemon": "^2.0.15"
   },
   "dependencies": {
-    "blumea": "^1.0.6",
+    "blumea": "^1.0.8",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "email-validator": "^2.0.4",
