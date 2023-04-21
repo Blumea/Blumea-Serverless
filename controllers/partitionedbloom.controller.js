@@ -1,5 +1,8 @@
 const { PartitionedBloomFilter } = require('blumea');
+const { v4: uuidv4 } = require('uuid');
 const { log, warn } = require('console');
+const { calculateSizeInBits, getTimeStamp } = require('../utils/index');
+
 var filter;
 const defaultConfig = {
     itemCount: 10000,
