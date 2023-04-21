@@ -1,5 +1,7 @@
 const { CountingBloomFilter } = require('blumea');
 const { log, warn } = require('console');
+const { calculateSizeInBits, getTimeStamp } = require('../utils/index');
+
 var filter;
 const defaultConfig = {
     itemCount: 10000,
@@ -155,7 +157,16 @@ const countingBloomCreateController = (req, res) => {
 
         if (filter.find(item) === false) {
             filter.insert(item);
-            itemList.push(item);
+
+            let itemObject = {
+                _id: uuidv4(),
+                item: item,
+                type: typeof item,
+                size: calculateSizeInBits(item) + ' B',
+                created: getTimeStamp()
+            }
+            itemList.push(itemObject);
+
             return res.status(201).json({
                 status: 201,
                 message: `Item @${item} created.`,
