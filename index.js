@@ -29,6 +29,7 @@ const mailService = require('./routes/mail.route')
 const classicalBloomService = require('./routes/classicalbloom.route')
 const partitionedBloomService = require('./routes/partitionedbloom.route')
 const countingBloomService = require('./routes/countingbloom.route')
+const scalableBloomService = require('./routes/scalable.route')
 
 // server logs:
 // let accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
@@ -46,7 +47,7 @@ app.use('/api/feedback', validateAccess, feedbackService)
 app.use("/api/classical", validateAccess, classicalBloomService)
 app.use("/api/partitioned", validateAccess, partitionedBloomService)
 app.use("/api/counting", validateAccess, countingBloomService)
-// app.use("/api/scalable", validateAccess, scalableBloomService)
+app.use("/api/scalable", validateAccess, scalableBloomService)
 // app.use("/api/cuckoo", validateAccess, cuckooBloomService)
 
 

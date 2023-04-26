@@ -14,7 +14,7 @@ const validateAccess = (req, res, next) => {
                 data: null
             })
         } else {
-            log('API Key validation success, access granted');
+            // log('API Key validation success, access granted');
             next();
         }
     } catch (error) {
