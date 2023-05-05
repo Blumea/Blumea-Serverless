@@ -191,7 +191,7 @@ const scalableBloomCreateController = (req, res) => {
                 message: `Item @${item} cannot be created.`,
                 data: {
                     iscreated: false,
-                    error: `${item} already exits.`
+                    error: `${item} already exists.`
                 }
             })
         }
