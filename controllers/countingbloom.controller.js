@@ -3,13 +3,22 @@ const { v4: uuidv4 } = require('uuid');
 const { log, warn } = require('console');
 const { calculateSizeInBits, getTimeStamp } = require('../utils/index');
 
-var filter;
+let filter;
 const defaultConfig = {
     itemCount: 10000,
     fpRate: 0.01
 }
-// TODO: Update the List storage to Redis or MongoDB Atlas
-let itemList = [];
+// TODO: Update the List storage to Redis or MongoDB Atlas 
+let itemList = [
+    /**
+     * itemId: string (guid)
+     * item: string
+     * size: Byte as String
+     * created: Date
+     * metadata: Object
+     * ttl: ms (milliseconds) - this will require a cron job to update ttl and delete item.
+     * */
+];
 
 const validateInputs = (_itemCount, _fpRate) => {
     let updatedCount = Number(_itemCount);
@@ -156,36 +165,42 @@ const countingBloomCreateController = (req, res) => {
             })
         }
 
-        if (filter.find(item) === false) {
-            filter.insert(item);
+        filter.insert(item);
 
-            let itemObject = {
-                _id: uuidv4(),
-                item: item,
-                type: typeof item,
-                size: calculateSizeInBits(item) + ' B',
-                created: getTimeStamp()
+        let itemObject = {
+            _id: uuidv4(),
+            item: item,
+            type: typeof item,
+            size: calculateSizeInBits(item) + ' B',
+            created: getTimeStamp(),
+            metadata: {
+                count: filter.getCount(item)
             }
-            itemList.push(itemObject);
-
-            return res.status(201).json({
-                status: 201,
-                message: `Item @${item} created.`,
-                data: {
-                    iscreated: true,
-                    error: null
-                }
-            })
-        } else {
-            return res.status(403).json({
-                status: 403,
-                message: `Item @${item} cannot be created.`,
-                data: {
-                    iscreated: false,
-                    error: `${item} already exits.`
-                }
-            })
         }
+
+
+        itemList = itemList.filter((object) => object.item !== itemObject.item)
+        itemList.push(itemObject);
+
+
+        return res.status(201).json({
+            status: 201,
+            message: `Item @${item} created.`,
+            data: {
+                iscreated: true,
+                error: null
+            }
+        })
+        // else {
+        //     return res.status(403).json({
+        //         status: 403,
+        //         message: `Item @${item} cannot be created.`,
+        //         data: {
+        //             iscreated: false,
+        //             error: `${item} already exits.`
+        //         }
+        //     })
+        // }
 
     } catch (err) {
         return res.status(500).json({
