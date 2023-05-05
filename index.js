@@ -30,7 +30,7 @@ const classicalBloom = require('./routes/classical.route')
 const partitionedBloom = require('./routes/partitioned.route')
 const countingBloom = require('./routes/counting.route')
 const scalableBloom = require('./routes/scalable.route')
-// const cuckooBloom = require('./routes/cuckoo.route')
+const cuckooBloom = require('./routes/cuckoo.route')
 
 // server logs:
 // let accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
@@ -49,7 +49,7 @@ app.use("/api/classical", validateAccess, classicalBloom)
 app.use("/api/partitioned", validateAccess, partitionedBloom)
 app.use("/api/counting", validateAccess, countingBloom)
 app.use("/api/scalable", validateAccess, scalableBloom)
-// app.use("/api/cuckoo", validateAccess, cuckooBloom)
+app.use("/api/cuckoo", validateAccess, cuckooBloom)
 
 
 // routes
