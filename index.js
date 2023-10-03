@@ -26,9 +26,11 @@ const home = require("./routes/home.route")
 const feedbackService = require("./routes/feedback.route")
 const mailService = require('./routes/mail.route')
 
-const classicalBloomService = require('./routes/classicalbloom.route')
-const partitionedBloomService = require('./routes/partitionedbloom.route')
-const countingBloomService = require('./routes/countingbloom.route')
+const classicalBloom = require('./routes/classical.route')
+const partitionedBloom = require('./routes/partitioned.route')
+const countingBloom = require('./routes/counting.route')
+const scalableBloom = require('./routes/scalable.route')
+const cuckooBloom = require('./routes/cuckoo.route')
 
 // server logs:
 // let accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
@@ -43,11 +45,11 @@ app.use(responseTimeLimiter)
 app.use('/api/mail', mailService);
 app.use('/api/home', validateAccess, home)
 app.use('/api/feedback', validateAccess, feedbackService)
-app.use("/api/classical", validateAccess, classicalBloomService)
-app.use("/api/partitioned", validateAccess, partitionedBloomService)
-app.use("/api/counting", validateAccess, countingBloomService)
-// app.use("/api/scalable", validateAccess, scalableBloomService)
-// app.use("/api/cuckoo", validateAccess, cuckooBloomService)
+app.use("/api/classical", validateAccess, classicalBloom)
+app.use("/api/partitioned", validateAccess, partitionedBloom)
+app.use("/api/counting", validateAccess, countingBloom)
+app.use("/api/scalable", validateAccess, scalableBloom)
+app.use("/api/cuckoo", validateAccess, cuckooBloom)
 
 
 // routes

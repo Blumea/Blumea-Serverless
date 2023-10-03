@@ -1,9 +1,9 @@
-const { BloomFilter } = require('blumea');
+const { CuckooBloomFilter } = require('blumea');
 const { v4: uuidv4 } = require('uuid');
 const { log, warn } = require('console');
 const { calculateSizeInBits, getTimeStamp } = require('../utils/index');
 
-var filter;
+let filter;
 const defaultConfig = {
     itemCount: 10000,
     fpRate: 0.01
@@ -15,6 +15,7 @@ let itemList = [
      * item: string
      * size: Byte as String
      * created: Date
+     * metadata: Object
      * ttl: ms (milliseconds) - this will require a cron job to update ttl and delete item.
      * */
 ];
@@ -46,14 +47,14 @@ const createDefaultFilterInstance = (_itemCount, _fpRate) => {
         const adjustedFpRate = itemCount > maxItemCount ? fpRate * 2 : fpRate;
 
         log('Creating BloomFilter instance (Item, rate): ' + maxItemCount + ', ' + adjustedFpRate);
-        return new BloomFilter(maxItemCount, adjustedFpRate);
+        return new CuckooBloomFilter(maxItemCount, adjustedFpRate);
     } catch (err) {
         warn(err);
         return null;
     }
 }
 
-const defaultClassicalBloomController = (req, res) => {
+const defaultCuckooBloomController = (req, res) => {
 
     try {
         let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
@@ -68,9 +69,9 @@ const defaultClassicalBloomController = (req, res) => {
 
         return res.status(200).json({
             status: 200,
-            message: 'Bloom Filter (Classic) API. Optimal Filter Instance creation success.',
+            message: 'Bloom Filter (Cuckoo) API. Optimal Filter Instance creation success.',
             data: {
-                instance: 'classicalBloomFilter',
+                instance: 'cuckooBloomFilter',
                 itemcount: filter.items_count,
                 falsepositiverate: filter.false_positive,
                 requiredcount: itemCount,
@@ -88,7 +89,7 @@ const defaultClassicalBloomController = (req, res) => {
     }
 }
 
-const classicalBloomSearchController = (req, res) => {
+const cuckooBloomSearchController = (req, res) => {
     try {
         const item = req.query.item || req.params.item || null;
 
@@ -142,7 +143,7 @@ const classicalBloomSearchController = (req, res) => {
     }
 }
 
-const classicalBloomCreateController = (req, res) => {
+const cuckooBloomCreateController = (req, res) => {
     try {
         if (!filter) {
             let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
@@ -208,14 +209,14 @@ const classicalBloomCreateController = (req, res) => {
     }
 }
 
-const classicalBloomGetAllItemsController = (req, res) => {
+const cuckooBloomGetAllItemsController = (req, res) => {
     res.status(200).json({
         status: 200,
-        message: `Bloom Filter (Classic) API - Item List`,
+        message: `Bloom Filter (Cuckoo) API - Item List`,
         data: {
             itemList
         }
     })
 }
 
-module.exports = { defaultClassicalBloomController, classicalBloomSearchController, classicalBloomCreateController, classicalBloomGetAllItemsController }
+module.exports = { defaultCuckooBloomController, cuckooBloomSearchController, cuckooBloomCreateController, cuckooBloomGetAllItemsController }

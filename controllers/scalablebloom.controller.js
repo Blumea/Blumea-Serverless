@@ -1,4 +1,4 @@
-const { BloomFilter } = require('blumea');
+const { ScalableBloomFilter } = require('blumea');
 const { v4: uuidv4 } = require('uuid');
 const { log, warn } = require('console');
 const { calculateSizeInBits, getTimeStamp } = require('../utils/index');
@@ -46,14 +46,14 @@ const createDefaultFilterInstance = (_itemCount, _fpRate) => {
         const adjustedFpRate = itemCount > maxItemCount ? fpRate * 2 : fpRate;
 
         log('Creating BloomFilter instance (Item, rate): ' + maxItemCount + ', ' + adjustedFpRate);
-        return new BloomFilter(maxItemCount, adjustedFpRate);
+        return new ScalableBloomFilter(maxItemCount, adjustedFpRate);
     } catch (err) {
         warn(err);
         return null;
     }
 }
 
-const defaultClassicalBloomController = (req, res) => {
+const defaultScalableBloomController = (req, res) => {
 
     try {
         let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
@@ -68,9 +68,9 @@ const defaultClassicalBloomController = (req, res) => {
 
         return res.status(200).json({
             status: 200,
-            message: 'Bloom Filter (Classic) API. Optimal Filter Instance creation success.',
+            message: 'Bloom Filter (Scalable) API. Optimal Filter Instance creation success.',
             data: {
-                instance: 'classicalBloomFilter',
+                instance: 'scalableBloomFilter',
                 itemcount: filter.items_count,
                 falsepositiverate: filter.false_positive,
                 requiredcount: itemCount,
@@ -88,7 +88,7 @@ const defaultClassicalBloomController = (req, res) => {
     }
 }
 
-const classicalBloomSearchController = (req, res) => {
+const scalableBloomSearchController = (req, res) => {
     try {
         const item = req.query.item || req.params.item || null;
 
@@ -142,7 +142,7 @@ const classicalBloomSearchController = (req, res) => {
     }
 }
 
-const classicalBloomCreateController = (req, res) => {
+const scalableBloomCreateController = (req, res) => {
     try {
         if (!filter) {
             let itemCount = defaultConfig.itemCount, fpRate = defaultConfig.fpRate;
@@ -208,14 +208,14 @@ const classicalBloomCreateController = (req, res) => {
     }
 }
 
-const classicalBloomGetAllItemsController = (req, res) => {
+const scalableBloomGetAllItemsController = (req, res) => {
     res.status(200).json({
         status: 200,
-        message: `Bloom Filter (Classic) API - Item List`,
+        message: `Bloom Filter (Scalable) API - Item List`,
         data: {
             itemList
         }
     })
 }
 
-module.exports = { defaultClassicalBloomController, classicalBloomSearchController, classicalBloomCreateController, classicalBloomGetAllItemsController }
+module.exports = { defaultScalableBloomController, scalableBloomSearchController, scalableBloomCreateController, scalableBloomGetAllItemsController }
